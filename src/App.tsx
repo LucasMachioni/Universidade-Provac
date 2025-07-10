@@ -1,10 +1,10 @@
-import { Button } from './components/ui/button'
+import { Home } from './views/home'
 
 export function App() {
 
   return (
     <>
-     <Button variant={"destructive"}>teste</Button>
+     <Home />
     </>
   )
 }
