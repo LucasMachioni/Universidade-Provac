@@ -1,10 +1,13 @@
-import { Home } from './views/home'
+import { BrowserRouter } from 'react-router-dom'
+import { AppRoutes } from './routes'
 
 export function App() {
 
   return (
     <>
-     <Home />
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
     </>
   )
 }

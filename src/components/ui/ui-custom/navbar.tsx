@@ -1,4 +1,4 @@
-import logo from "../../assets/logo.png";
+import logo from "../../../assets/logo.png";
 import LoginIcon from "@mui/icons-material/Login";
 import PersonIcon from "@mui/icons-material/Person";
 
@@ -12,7 +12,7 @@ export const NavBar = () => {
         </h1>
       </div>
 
-      <ul className="hidden xl:flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 gap-8 text-white text-lg">
+      <ul className="hidden xl:flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 gap-8 text-white text-md">
         <li className="hover:text-gray-300 cursor-pointer font-bold">Home</li>
         <li className="hover:text-gray-300 cursor-pointer font-bold">Cursos</li>
         <li className="hover:text-gray-300 cursor-pointer font-bold">Sobre</li>
