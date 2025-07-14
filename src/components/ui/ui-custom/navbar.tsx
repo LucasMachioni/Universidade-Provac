@@ -1,10 +1,15 @@
 import logo from "../../../assets/logo.png";
 import LoginIcon from "@mui/icons-material/Login";
 import PersonIcon from "@mui/icons-material/Person";
+import { DrawerSidebar } from "./sidebar";
+import { useState } from "react";
 
 export const NavBar = () => {
+    const [mostrar, setMostrar] = useState(false);
+
   return (
     <nav className="w-full bg-[#222325] h-24 px-6 flex items-center relative">
+     <DrawerSidebar />
       <div className="flex items-center gap-3">
         <img src={logo} alt="Logo" className="h-24 md:h-24" />
         <h1 className="text-2xl md:text-3xl font-bold text-white">
@@ -13,8 +18,8 @@ export const NavBar = () => {
       </div>
 
       <ul className="hidden xl:flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 gap-8 text-white text-md">
-        <li className="hover:text-gray-300 cursor-pointer font-bold">Home</li>
-        <li className="hover:text-gray-300 cursor-pointer font-bold"> <a href="/Courses">Cursos</a></li>
+        <li className="font-bold"><a href="/">Home</a></li>
+        <li className="font-bold"> <a href="/Courses">Cursos</a></li>
         <li className="hover:text-gray-300 cursor-pointer font-bold">Sobre</li>
         <li className="hover:text-gray-300 cursor-pointer font-bold">
           Área Gestor
