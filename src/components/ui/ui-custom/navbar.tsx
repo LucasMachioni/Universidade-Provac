@@ -14,7 +14,7 @@ export const NavBar = () => {
 
       <ul className="hidden xl:flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 gap-8 text-white text-md">
         <li className="hover:text-gray-300 cursor-pointer font-bold">Home</li>
-        <li className="hover:text-gray-300 cursor-pointer font-bold">Cursos</li>
+        <li className="hover:text-gray-300 cursor-pointer font-bold"> <a href="/Courses">Cursos</a></li>
         <li className="hover:text-gray-300 cursor-pointer font-bold">Sobre</li>
         <li className="hover:text-gray-300 cursor-pointer font-bold">
           Área Gestor
