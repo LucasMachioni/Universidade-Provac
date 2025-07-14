@@ -17,11 +17,11 @@ export function LoginCard() {
     const [password, setPassword] = useState('');
 
     return (
-        <Card className="w-full max-w-md p-6 text-base shadow-md"> {/* Card moderadamente maior */}
+        <Card className="w-full max-w-md p-6 text-base shadow-md">
             <CardHeader className="space-y-3">
                 <CardTitle className="text-2xl">Login</CardTitle>
                 <CardDescription className="text-base">
-                    Insira seu e-mail para logar sua conta
+                    Insira seu e-mail para entrar com sua conta
                 </CardDescription>
                 <CardAction>
                     <Button variant="link" className="text-base">Cadastrar</Button>
