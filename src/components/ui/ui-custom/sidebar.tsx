@@ -1,28 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
-  HiHome,
+  HiPuzzle,
   HiAcademicCap,
-  HiInformationCircle,
   HiUserGroup,
-  HiChevronDown,
+  HiDocumentText,
+  HiChartBar,
   HiX,
+  HiBookOpen,
 } from "react-icons/hi";
 import logo from "../../../assets/logo.png";
 
 export const DrawerSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
-
-  const toggleSubmenu = (menu: string) => {
-    setOpenSubmenu(openSubmenu === menu ? null : menu);
-  };
 
   return (
     <>
       <button
-        className="x2:hidden text-white ml-4"
+        className="3xl:hidden text-white ml-4"
         onClick={() => setIsOpen(true)}
       >
         <svg
@@ -71,115 +68,63 @@ export const DrawerSidebar = () => {
           <nav className="mt-5">
             <ul className="space-y-1 px-2">
               <li>
-                <a
-                  href="/"
-                  className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg"
-                >
-                  <HiHome className="h-5 w-5" />
-                  <span>Aulas</span>
-                </a>
-              </li>
-
-              <li>
-                <a
-                  href="/Courses"
+                <Link
+                  to="/"
                   className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg"
                 >
                   <HiAcademicCap className="h-5 w-5" />
                   <span>Cursos</span>
-                </a>
+                </Link>
               </li>
 
               <li>
-                <button
-                  className="flex items-center justify-between w-full p-3 hover:bg-gray-700 rounded-lg"
-                  onClick={() => toggleSubmenu("sobre")}
+                <Link
+                  to="/Courses"
+                  className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg"
                 >
-                  <div className="flex items-center gap-3">
-                    <HiInformationCircle className="h-5 w-5" />
-                    <span>Módulos</span>
-                  </div>
-                  <HiChevronDown
-                    className={`h-5 w-5 transition-transform ${
-                      openSubmenu === "sobre" ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-
-                {openSubmenu === "sobre" && (
-                  <ul className="ml-8 mt-1 space-y-1">
-                    <li>
-                      <a
-                        href="/sobre/historia"
-                        className="block p-2 hover:bg-gray-700 rounded"
-                      >
-                        Nossa História
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="/sobre/equipe"
-                        className="block p-2 hover:bg-gray-700 rounded"
-                      >
-                        Equipe
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="/sobre/contato"
-                        className="block p-2 hover:bg-gray-700 rounded"
-                      >
-                        Contato
-                      </a>
-                    </li>
-                  </ul>
-                )}
+                  <HiPuzzle className="h-5 w-5" />
+                  <span>Módulos</span>
+                </Link>
               </li>
 
               <li>
-                <button
-                  className="flex items-center justify-between w-full p-3 hover:bg-gray-700 rounded-lg"
-                  onClick={() => toggleSubmenu("gestor")}
+                <Link
+                  to="/Classes"
+                  className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg"
                 >
-                  <div className="flex items-center gap-3">
-                    <HiUserGroup className="h-5 w-5" />
-                    <span>Área Gestor</span>
-                  </div>
-                  <HiChevronDown
-                    className={`h-5 w-5 transition-transform ${
-                      openSubmenu === "gestor" ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
+                  <HiBookOpen className="h-5 w-5" />
+                  <span>Aulas</span>
+                </Link>
+              </li>
 
-                {openSubmenu === "gestor" && (
-                  <ul className="ml-8 mt-1 space-y-1">
-                    <li>
-                      <a
-                        href="/gestor/dashboard"
-                        className="block p-2 hover:bg-gray-700 rounded"
-                      >
-                        Dashboard
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="/gestor/alunos"
-                        className="block p-2 hover:bg-gray-700 rounded"
-                      >
-                        Gerenciar Alunos
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="/gestor/financeiro"
-                        className="block p-2 hover:bg-gray-700 rounded"
-                      >
-                        Financeiro
-                      </a>
-                    </li>
-                  </ul>
-                )}
+              <li>
+                <Link
+                  to="/provas"
+                  className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg"
+                >
+                  <HiUserGroup className="h-5 w-5" />
+                  <span>Provas</span>
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/documentacao"
+                  className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg"
+                >
+                  <HiDocumentText className="h-5 w-5" />
+                  <span>Documentação</span>
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/grafico"
+                  className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg"
+                >
+                  <HiChartBar className="h-5 w-5" />
+                  <span>Gráfico</span>
+                </Link>
               </li>
             </ul>
           </nav>

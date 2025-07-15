@@ -1,3 +1,4 @@
+import { Classes } from '@/pages/classes'
 import { Courses } from '@/pages/courses'
 import { Home } from '@/pages/home'
 import { Route, Routes } from 'react-router-dom'
@@ -8,6 +9,7 @@ export function AppRoutes() {
             <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/Courses' element={<Courses />} />
+                <Route path='/Classes' element={<Classes />} />
                 <Route />
             </Routes>
         </>
