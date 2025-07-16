@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 export const NavBar = () => {
   return (
-    <nav className="w-full bg-[#222325] h-24 px-6 flex items-center relative">
+    <nav className="w-full bg-[#222325] h-24 px-6 flex items-center sticky top-0 z-50">
       <DrawerSidebar />
 
       <div className="flex items-center gap-3">
@@ -23,7 +23,7 @@ export const NavBar = () => {
           <Link to="/">Home</Link>
         </li>
         <li className="font-bold">
-          <Link to="/Courses">Cursos</Link>
+          <Link to="/cursos">Cursos</Link>
         </li>
         <li className="hover:text-gray-300 cursor-pointer font-bold">
           <Link to="/sobre">Sobre</Link>

@@ -9,6 +9,7 @@ import {
   HiDocumentText,
   HiChartBar,
   HiX,
+  HiVideoCamera,
   HiBookOpen,
 } from "react-icons/hi";
 import logo from "../../../assets/logo.png";
@@ -69,17 +70,17 @@ export const DrawerSidebar = () => {
             <ul className="space-y-1 px-2">
               <li>
                 <Link
-                  to="/"
+                  to="/cursos"
                   className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg"
                 >
-                  <HiAcademicCap className="h-5 w-5" />
+                  <HiVideoCamera className="h-5 w-5" />
                   <span>Cursos</span>
                 </Link>
               </li>
 
               <li>
                 <Link
-                  to="/Courses"
+                  to="/modulos"
                   className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg"
                 >
                   <HiPuzzle className="h-5 w-5" />
@@ -89,7 +90,7 @@ export const DrawerSidebar = () => {
 
               <li>
                 <Link
-                  to="/Classes"
+                  to="/aulas"
                   className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg"
                 >
                   <HiBookOpen className="h-5 w-5" />
@@ -102,7 +103,7 @@ export const DrawerSidebar = () => {
                   to="/provas"
                   className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg"
                 >
-                  <HiUserGroup className="h-5 w-5" />
+                  <HiAcademicCap className="h-5 w-5" />
                   <span>Provas</span>
                 </Link>
               </li>

@@ -4,7 +4,7 @@ import { NavBar } from "./components/ui/ui-custom/navbar";
 
 export function App() {
   return (
-    <div className="bg-[#1C1C1C]">
+    <div className="bg-[#10151F]">
       <BrowserRouter>
         <NavBar />
         <AppRoutes />

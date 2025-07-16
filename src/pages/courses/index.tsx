@@ -17,16 +17,16 @@ export const options: { value: string; label: string }[] = [
 
 export const Courses = () => {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center px-4 p-20">
-      <div className="w-[65%] h-90 bg-[#040507] flex flex-col gap-4 items-center p-5 rounded-xl">
+    <main className="min-h-screen flex flex-col items-center px-4 pt-15 pb-15">
+      <div className="w-[65%] h-90 bg-[#040507] flex flex-col gap-4 items-center p-5 rounded-md">
         <h1 className="text-white font-bold text-2xl">Cadastro de Curso</h1>
         <Input
           placeholder="Título"
-          className="bg-[#303030] text-white caret-white placeholder:text-[15px] placeholder:text-[#8C8E8E] border-neutral-700"
+          className="bg-[#303030] text-white caret-white placeholder:text-[15px] placeholder:text-[#adafaf] border-neutral-700"
         />
         <Input
           placeholder="Subtítulo"
-          className="bg-[#303030] text-white caret-white placeholder:text-[15px] placeholder:text-[#8C8E8E] border-neutral-700"
+          className="bg-[#303030] text-white caret-white placeholder:text-[15px] placeholder:text-[#adafaf] border-neutral-700"
         />
         <CustomFileInput />
         <Combobox
@@ -43,7 +43,7 @@ export const Courses = () => {
           Cadastrar
         </Button>
       </div>
-      <div className="w-[65%] h-55 mt-10 bg-[#040507] flex flex-col gap-4 items-center p-5 pb-14 rounded-xl">
+      <div className="w-[65%] h-55 mt-10 bg-[#040507] flex flex-col gap-4 items-center p-5 pb-14 rounded-md">
         <h1 className="text-white font-bold text-2xl">Apagar Curso</h1>
         <Combobox
           options={options}
@@ -54,12 +54,12 @@ export const Courses = () => {
         />
         <Button
           variant="destructive"
-          className="w-[50%] text-base mt-3 bg-[#ff5151]"
+          className="w-[50%] text-base mt-3 bg-[#a11313] hover:bg-[#a11313bb]"
         >
           Apagar
         </Button>
       </div>
-      <div className="w-[65%] h-55 mt-10 bg-[#040507] flex flex-col gap-4 items-center p-5 pb-14 rounded-xl">
+      <div className="w-[65%] h-55 mt-10 bg-[#040507] flex flex-col gap-4 items-center p-5 pb-14 rounded-md">
         <h1 className="text-white font-bold text-2xl">
           Atribuir Curso Obrigatório
         </h1>
@@ -71,10 +71,10 @@ export const Courses = () => {
           className="border-blue-500"
         />
         <Button
-          variant="destructive"
-          className="w-[50%] text-base mt-8 bg-[#ff5151]"
+          variant="default"
+          className="w-[50%] text-base bg-[#0D47A1] hover:bg-[#0d46a288] mt-2"
         >
-          Apagar
+          Atribuir
         </Button>
       </div>
     </main>
