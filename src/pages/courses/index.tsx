@@ -1,21 +1,70 @@
+import apiClient from "@/api/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Combobox } from "@/components/ui/ui-custom/combobox";
 import { CustomFileInput } from "@/components/ui/ui-custom/custom-input";
+import { useEffect, useState } from "react";
 
-export const options: { value: string; label: string }[] = [
-  { value: "rh", label: "RH" },
-  { value: "pmo", label: "PMO" },
-  { value: "financeiro", label: "Financeiro" },
-  { value: "juridico", label: "Jurídico" },
-  { value: "frotas", label: "Frotas" },
-  { value: "compras", label: "Compras" },
-  { value: "contratos", label: "Contratos" },
-  { value: "contavel", label: "Contável" },
-  { value: "sms", label: "SMS" },
-];
+interface ApiItem {
+  id: string;
+  name: string;
+}
+interface Option {
+  value: string;
+  label: string;
+}
 
 export const Courses = () => {
+  const [deptOptions, setDeptOptions] = useState<Option[]>([]);
+  const [courseOptions, setCourseOptions] = useState<Option[]>([]);
+  const [roleOptions, setRoleOptions] = useState<Option[]>([]);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchAll = async () => {
+      try {
+        const [deptRes, courseRes, roleRes] = await Promise.all([
+          apiClient.get("departments/list"),
+          apiClient.get("courses/list"),
+          apiClient.get("positions/list"),
+        ]);
+
+        function extractList(resData: any): ApiItem[] {
+          if (Array.isArray(resData)) return resData;
+          if (Array.isArray(resData.list)) return resData.list;
+          return [];
+        }
+
+        const deptRaw = extractList(deptRes.data.data);
+        const courseRaw = extractList(courseRes.data.data);
+        const roleRaw = extractList(roleRes.data.data);
+
+        console.log("Dept:", deptRaw);
+        console.log("Courses:", courseRaw);
+        console.log("Positions:", roleRaw);
+
+        const mapOpts = (arr: ApiItem[]) =>
+          arr.map((x) => ({ value: x.id, label: x.name }));
+
+        setDeptOptions(mapOpts(deptRaw));
+        setCourseOptions(mapOpts(courseRaw));
+        setRoleOptions(mapOpts(roleRaw));
+      } catch (err) {
+        console.error("Erro ao carregar dados:", err);
+        setError("Falha ao carregar listas.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAll();
+  }, []);
+
+  if (loading) return <div>Carregando listas…</div>;
+  if (error) return <div className="text-red-500">{error}</div>;
+
   return (
     <main className="min-h-screen flex flex-col items-center px-4 pt-15 pb-15">
       <div className="w-[65%] h-90 bg-[#040507] flex flex-col gap-4 items-center p-5 rounded-md">
@@ -30,7 +79,7 @@ export const Courses = () => {
         />
         <CustomFileInput />
         <Combobox
-          options={options}
+          options={deptOptions}
           placeholder="Escolha um departamento"
           searchPlaceholder="Digite para buscar..."
           defaultValue=""
@@ -46,7 +95,7 @@ export const Courses = () => {
       <div className="w-[65%] h-55 mt-10 bg-[#040507] flex flex-col gap-4 items-center p-5 pb-14 rounded-md">
         <h1 className="text-white font-bold text-2xl">Apagar Curso</h1>
         <Combobox
-          options={options}
+          options={courseOptions}
           placeholder="Selecione um curso"
           searchPlaceholder="Digite para buscar..."
           defaultValue=""
@@ -64,7 +113,7 @@ export const Courses = () => {
           Atribuir Curso Obrigatório
         </h1>
         <Combobox
-          options={options}
+          options={roleOptions}
           placeholder="Selecione uma função"
           searchPlaceholder="Digite para buscar..."
           defaultValue=""
