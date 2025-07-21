@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://192.168.0.82:6067/universidade-provac/",
+  baseURL: "http://127.0.0.1:6067/universidade-provac/",
 });
 
 apiClient.interceptors.request.use((config) => {

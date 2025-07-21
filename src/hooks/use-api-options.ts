@@ -1,4 +1,3 @@
-// src/hooks/use-api-options.ts
 import { useEffect, useState, useCallback } from "react";
 import apiClient from "@/api/client";
 
