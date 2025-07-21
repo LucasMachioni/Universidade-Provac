@@ -17,7 +17,6 @@ export const CustomFileInput = ({ onChange }: CustomFileInputProps) => {
       setFileName("Nenhum arquivo escolhido");
     }
 
-    // Dispara callback, se tiver sido passada por prop
     if (onChange) {
       onChange(file);
     }

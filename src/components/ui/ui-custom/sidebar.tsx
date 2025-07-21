@@ -69,11 +69,11 @@ export const DrawerSidebar = () => {
             <ul className="space-y-1 px-2">
               <li>
                 <Link
-                  to="/cursos"
+                  to="/cadastrar-curso"
                   className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg"
                 >
                   <HiVideoCamera className="h-5 w-5" />
-                  <span>Cursos</span>
+                  <span>Cadastrar Curso</span>
                 </Link>
               </li>
 
@@ -83,7 +83,7 @@ export const DrawerSidebar = () => {
                   className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg"
                 >
                   <HiPuzzle className="h-5 w-5" />
-                  <span>Módulos</span>
+                  <span>Cadastrar Módulo</span>
                 </Link> 
               </li>
 
@@ -93,7 +93,7 @@ export const DrawerSidebar = () => {
                   className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg"
                 >
                   <HiBookOpen className="h-5 w-5" />
-                  <span>Aulas</span>
+                  <span>Cadastar Aula</span>
                 </Link>
               </li>
 

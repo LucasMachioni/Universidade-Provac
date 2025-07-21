@@ -34,7 +34,7 @@ export function LoginCard() {
       login(token);
 
       // navega para a área privada
-      navigate("/cursos");
+      navigate("/cadastrar-curso");
     } catch (erro) {
       console.error("Erro ao logar:", erro);
       alert("Falha no login!");
