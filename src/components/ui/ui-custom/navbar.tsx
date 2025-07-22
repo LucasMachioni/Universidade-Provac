@@ -1,23 +1,21 @@
 "use client";
 
-import React from "react";
 import logo from "../../../assets/logo.png";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { DrawerSidebar } from "./sidebar";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/auth-context";
-import PersonIcon from "@mui/icons-material/Person";
 
 export const NavBar = () => {
   const { token, isManager, logout, isLoading } = useAuth();
   const navigate = useNavigate();
 
-  if (isLoading) return null; // ou coloque um loader se quiser
+  if (isLoading) return <div className="text-white p-4">Carregando...</div>;
 
   const handleLogout = () => {
     logout();
-    navigate("/"); // redireciona à home após logout
+    navigate("/");
   };
 
   return (

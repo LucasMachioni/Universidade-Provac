@@ -53,7 +53,7 @@ export function LoginCard() {
           <Button
             variant="link"
             className="text-base"
-            onClick={() => navigate("/register")}
+            onClick={() => navigate("/registrar")}
           >
             Cadastrar
           </Button>
@@ -61,7 +61,7 @@ export function LoginCard() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-          {/* Campo E-mail */}
+      
           <div className="grid gap-2">
             <Label htmlFor="email" className="text-base">
               E-mail
@@ -77,7 +77,6 @@ export function LoginCard() {
             />
           </div>
 
-          {/* Campo Senha com botão de ver/ocultar */}
           <div className="grid gap-2 relative">
             <div className="flex items-center justify-between">
               <Label htmlFor="password" className="text-base">
@@ -115,7 +114,6 @@ export function LoginCard() {
             </div>
           </div>
 
-          {/* Botão de Login */}
           <CardFooter className="flex-col gap-3 mt-6">
             <Button type="submit" className="w-full h-12 text-base">
               Login

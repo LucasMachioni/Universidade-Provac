@@ -7,19 +7,18 @@ import { Spinner } from "@/components/ui/ui-custom/spinner";
 import { useApiOptions } from "@/hooks/use-api-options";
 import apiClient from "@/api/client";
 import React from "react";
+import { Toggle } from "@/components/ui/ui-custom/toggle";
 
 export const Courses = () => {
-  // Estados para cadastro
+  const [isOn, setIsOn] = React.useState(false);
   const [title, setTitle] = React.useState("");
   const [subtitle, setSubtitle] = React.useState("");
   const [imageBase64, setImageBase64] = React.useState("");
   const [selectedDept, setSelectedDept] = React.useState("");
 
-  // Estados para apagar e atribuir
   const [selectedCourse, setSelectedCourse] = React.useState("");
   const [selectedRole, setSelectedRole] = React.useState("");
 
-  // Carregar opções
   const {
     options: deptOptions,
     isLoading: deptLoading,
@@ -41,7 +40,6 @@ export const Courses = () => {
     error: roleErrorMessage,
   } = useApiOptions({ endpoint: "positions/list" });
 
-  // Loading e erro
   if (deptLoading || courseLoading || roleLoading) return <Spinner />;
   if (deptError || courseError || roleError) {
     return (
@@ -57,7 +55,10 @@ export const Courses = () => {
     );
   }
 
-  // Converte arquivo em base64 e salva no estado
+  const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsOn(event.target.checked);
+  };
+
   const handleImageChange = (file: File | null) => {
     if (!file) {
       setImageBase64("");
@@ -67,24 +68,27 @@ export const Courses = () => {
     const reader = new FileReader();
     reader.onloadend = () => {
       const result = reader.result as string;
-      const base64 = result.split(",")[1]; // Remove prefixo "data:*/*;base64,"
+      const base64 = result.split(",")[1];
       setImageBase64(base64);
     };
     reader.readAsDataURL(file);
   };
 
   const handleSubmit = async () => {
-    if (!title || !selectedDept || !imageBase64) {
-      alert("Por favor, preencha título, departamento e selecione uma imagem.");
+    if (!title || (!isOn && !selectedDept) || !imageBase64) {
+      alert(
+        "Por favor, preencha título, selecione uma imagem e um departamento (caso o curso não seja para todos)."
+      );
       return;
     }
 
     const payload = {
       data: {
-        departmentId: Number(selectedDept),
+        departmentId: isOn ? null : Number(selectedDept),
         title,
         subtitle,
         imagePath: imageBase64,
+        allDepartments: isOn,
       },
     };
 
@@ -97,6 +101,7 @@ export const Courses = () => {
       setSubtitle("");
       setImageBase64("");
       setSelectedDept("");
+      setIsOn(false);
     } catch (error) {
       console.error("Erro ao cadastrar curso:", error);
       alert("Erro ao cadastrar curso.");
@@ -105,7 +110,6 @@ export const Courses = () => {
 
   return (
     <main className="min-h-screen flex flex-col items-center px-4 pt-15 pb-15">
-      {/* Cadastro de Curso */}
       <div className="w-[65%] bg-[#040507] flex flex-col gap-4 items-center p-5 rounded-md">
         <h1 className="text-white font-bold text-2xl">Cadastro de Curso</h1>
 
@@ -132,7 +136,16 @@ export const Courses = () => {
           defaultValue={selectedDept}
           onValueChange={setSelectedDept}
           className="border-blue-500"
+          disabled={isOn}
         />
+
+        <div className="w-full flex items-center gap-3 justify-start mt-2">
+          <Toggle
+            checked={isOn}
+            onChange={handleToggle}
+            label="Curso obrigatório para todos os usuários"
+          />
+        </div>
 
         <Button
           variant="default"
@@ -143,7 +156,6 @@ export const Courses = () => {
         </Button>
       </div>
 
-      {/* Apagar Curso */}
       <div className="w-[65%] h-55 mt-10 bg-[#040507] flex flex-col gap-4 items-center p-5 pb-14 rounded-md">
         <h1 className="text-white font-bold text-2xl">Apagar Curso</h1>
         <Combobox
@@ -157,13 +169,11 @@ export const Courses = () => {
         <Button
           variant="destructive"
           className="w-[50%] text-base mt-3 bg-[#a11313] hover:bg-[#a11313bb]"
-          // onClick para apagar (implemente quando quiser)
         >
           Apagar
         </Button>
       </div>
 
-      {/* Atribuir Curso Obrigatório */}
       <div className="w-[65%] h-55 mt-10 bg-[#040507] flex flex-col gap-4 items-center p-5 pb-14 rounded-md">
         <h1 className="text-white font-bold text-2xl">
           Atribuir Curso Obrigatório
@@ -179,7 +189,6 @@ export const Courses = () => {
         <Button
           variant="default"
           className="w-[50%] text-base bg-[#0D47A1] hover:bg-[#0d46a288] mt-2"
-          // onClick para atribuir (implemente quando quiser)
         >
           Atribuir
         </Button>

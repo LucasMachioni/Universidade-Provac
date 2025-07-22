@@ -4,7 +4,6 @@ import { Spinner } from "@/components/ui/ui-custom/spinner";
 import { ErrorScreen } from "@/components/ui/ui-custom/error-screen";
 import { useApiOptions } from "@/hooks/use-api-options";
 
-// Define the interface for class data based on API response
 interface ClassData {
   id: number;
   courseId: number;
@@ -20,7 +19,6 @@ export const CoursesList = () => {
   const [selectedModule, setSelectedModule] = React.useState("");
   const [selectedClass, setSelectedClass] = React.useState("");
 
-  // Fetch departments
   const {
     options: departmentOptions,
     isLoading: deptLoading,
@@ -28,7 +26,6 @@ export const CoursesList = () => {
     error: deptErrorMsg,
   } = useApiOptions({ endpoint: "departments/list" });
 
-  // Fetch courses based on selected department
   const {
     options: courseOptions,
     isLoading: courseLoading,
@@ -41,7 +38,6 @@ export const CoursesList = () => {
     skip: !selectedDepartment,
   });
 
-  // Fetch modules based on selected course
   const {
     options: moduleOptions,
     isLoading: moduleLoading,
@@ -54,10 +50,9 @@ export const CoursesList = () => {
     skip: !selectedCourse,
   });
 
-  // Fetch classes based on selected module and course, with raw data
   const {
     options: classOptions,
-    data: classData, // Added to access raw class data
+    data: classData,
     isLoading: classLoading,
     isError: classError,
     error: classErrorMsg,
@@ -68,16 +63,15 @@ export const CoursesList = () => {
     skip: !(selectedModule && selectedCourse),
   });
 
-  // Function to extract YouTube video ID from URL
   const getVideoId = (url: string) => {
     const match = url.match(/v=([^&]+)/);
     return match ? match[1] : null;
   };
 
-  // Find the selected class data using the ID
-  const selectedClassData = classData?.find(cls => cls.id.toString() === selectedClass);
+  const selectedClassData = classData?.find(
+    (cls) => cls.id.toString() === selectedClass
+  );
 
-  // Reset selections when dependencies change
   React.useEffect(() => {
     if (selectedDepartment) {
       setSelectedCourse("");
@@ -143,6 +137,7 @@ export const CoursesList = () => {
             onValueChange={setSelectedDepartment}
           />
         </div>
+   
 
         <div className="flex flex-col gap-2">
           <label className="text-lg font-medium">Curso</label>
@@ -183,14 +178,17 @@ export const CoursesList = () => {
           {classLoading && <div>Carregando aulas...</div>}
         </div>
 
-        {/* Display the video if a class is selected and has a valid URL */}
         {selectedClassData && getVideoId(selectedClassData.url) && (
           <div className="mt-8">
-            <h2 className="text-2xl font-semibold mb-4 text-center">Aula Selecionada</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-center">
+              Aula Selecionada
+            </h2>
             <div className="w-full aspect-video bg-black rounded-lg overflow-hidden shadow-lg">
               <iframe
                 className="w-full h-full"
-                src={`https://www.youtube.com/embed/${getVideoId(selectedClassData.url)}`}
+                src={`https://www.youtube.com/embed/${getVideoId(
+                  selectedClassData.url
+                )}`}
                 title="Aula"
                 allowFullScreen
               />

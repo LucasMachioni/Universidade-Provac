@@ -7,6 +7,7 @@ import { Proofs } from "@/pages/proofs";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { PrivateRoute } from "./private-route";
 import { CoursesList } from "@/pages/courses";
+import { Register } from "@/pages/register";
 
 export function AppRoutes() {
   return (
@@ -20,6 +21,7 @@ export function AppRoutes() {
           <Route path="/aulas" element={<Classes />} />
           <Route path="/modulos" element={<Modules />} />
           <Route path="/provas" element={<Proofs />} />
+          <Route path="/registrar" element={<Register />} />
         </Route>
         <Route />
         <Route path="*" element={<Navigate to="/" replace />} />
