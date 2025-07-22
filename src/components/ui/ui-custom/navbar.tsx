@@ -17,7 +17,7 @@ export const NavBar = () => {
           Universidade Provac
         </h1>
       </div>
-
+      
       <ul className="hidden xl:flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 gap-8 text-white text-md">
         <li className="font-bold">
           <Link to="/">Home</Link>

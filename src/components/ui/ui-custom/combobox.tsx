@@ -31,6 +31,7 @@ interface ComboboxProps {
   defaultValue?: string;
   onValueChange?: (value: string) => void;
   className?: string;
+  disabled?: boolean; // Nova propriedade
 }
 
 export function Combobox({
@@ -40,33 +41,35 @@ export function Combobox({
   defaultValue = "",
   onValueChange,
   className,
+  disabled = false, // Valor padrão
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaultValue);
 
-  // Atualiza o valor interno quando o defaultValue mudar
   React.useEffect(() => {
     setValue(defaultValue);
   }, [defaultValue]);
 
-  // Chama o callback onValueChange quando o valor mudar
   const handleSelect = (currentValue: string) => {
-    const newValue = currentValue === value ? "" : currentValue;
-    setValue(newValue);
+    setValue(currentValue);
     setOpen(false);
     if (onValueChange) {
-      onValueChange(newValue);
+      onValueChange(currentValue);
     }
   };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
+      <PopoverTrigger asChild disabled={disabled}>
         <Button
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={cn("w-[100%] justify-between bg-[#424242] text-white", className)}
+          className={cn(
+            "w-[100%] justify-between bg-[#424242] text-white",
+            className
+          )}
+          disabled={disabled}
         >
           {value
             ? options.find((option) => option.value === value)?.label
@@ -76,10 +79,7 @@ export function Combobox({
       </PopoverTrigger>
       <PopoverContent className="w-[780px] p-0">
         <Command>
-          <CommandInput
-            placeholder={searchPlaceholder}
-            className="h-9"
-          />
+          <CommandInput placeholder={searchPlaceholder} className="h-9" />
           <CommandList>
             <CommandEmpty>Nenhuma opção encontrada.</CommandEmpty>
             <CommandGroup>

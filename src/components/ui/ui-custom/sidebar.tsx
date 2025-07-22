@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import {
   HiPuzzle,
   HiAcademicCap,
-  HiUserGroup,
   HiDocumentText,
   HiChartBar,
   HiX,
@@ -85,7 +84,7 @@ export const DrawerSidebar = () => {
                 >
                   <HiPuzzle className="h-5 w-5" />
                   <span>Módulos</span>
-                </Link>
+                </Link> 
               </li>
 
               <li>

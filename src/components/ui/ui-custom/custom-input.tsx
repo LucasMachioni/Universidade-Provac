@@ -1,15 +1,25 @@
 import { useRef, useState } from "react";
 
-export const CustomFileInput = () => {
+interface CustomFileInputProps {
+  onChange?: (file: File | null) => void;
+}
+
+export const CustomFileInput = ({ onChange }: CustomFileInputProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = useState("Nenhum arquivo escolhido");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files?.[0] ?? null;
+
     if (file) {
       setFileName(file.name);
     } else {
       setFileName("Nenhum arquivo escolhido");
+    }
+
+    // Dispara callback, se tiver sido passada por prop
+    if (onChange) {
+      onChange(file);
     }
   };
 
@@ -28,6 +38,7 @@ export const CustomFileInput = () => {
         ref={fileInputRef}
         onChange={handleFileChange}
         className="hidden"
+        accept="image/*"
       />
     </div>
   );

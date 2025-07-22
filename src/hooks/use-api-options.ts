@@ -1,63 +1,66 @@
-import { useEffect, useState } from "react";
+// src/hooks/use-api-options.ts
+import { useEffect, useState, useCallback } from "react";
 import apiClient from "@/api/client";
 
-//Estrutura padrão das opções da combobox
 export interface Option {
   value: string;
   label: string;
 }
 
-//estrutura esperada da api
-interface ApiItem {
-  id: string;
-  name: string;
-}
-
-//parâmetros do hook com o endpoint personalizado e a função para personalizar o mapeamento dos dados
-interface UseApiOptionsParams {
+export interface UseApiOptionsParams<T = any> {
   endpoint: string;
-  transform?: (item: ApiItem) => Option;
+  transform?: (item: T) => Option;
+  params?: Record<string, any>;
+  skip?: boolean;
 }
 
-//declaração do hook, define um transformador dos dados caso não seja especificado outro
-export const useApiOptions = ({
+const defaultTransform = (item: any): Option => ({
+  value: String(item.id),
+  label: item.name || item.title || "Sem nome",
+});
+
+export const useApiOptions = <T = any>({
   endpoint,
-  transform = (item) => ({ value: item.id, label: item.name }),
-}: UseApiOptionsParams) => {
+  transform,
+  params = {},
+  skip = false,
+}: UseApiOptionsParams<T>) => {
   const [options, setOptions] = useState<Option[]>([]);
   const [status, setStatus] = useState<"loading" | "success" | "error">(
-    "loading"
+    skip ? "success" : "loading"
   );
   const [error, setError] = useState<string | null>(null);
 
+  const isLoading = status === "loading";
+  const isError = status === "error";
+
+  const fetchOptions = useCallback(async () => {
+    if (skip) return;
+    setStatus("loading");
+    setError(null);
+    try {
+      const res = await apiClient.get(endpoint, { params });
+      // extrai lista genérica
+      const data = res.data;
+      const list = Array.isArray(data)
+        ? data
+        : Array.isArray(data.data)
+        ? data.data
+        : Array.isArray(data.list)
+        ? data.list
+        : [];
+      setOptions(list.map(transform || defaultTransform));
+      setStatus("success");
+    } catch (err: any) {
+      console.error(`Erro em ${endpoint}:`, err);
+      setError(err.message || "Erro inesperado");
+      setStatus("error");
+    }
+  }, [endpoint, transform, skip, JSON.stringify(params)]);
+
   useEffect(() => {
-    const fetchOptions = async () => {
-      try {
-        const response = await apiClient.get(endpoint);
-
-        const extractList = (data: any): ApiItem[] => {
-          if (Array.isArray(data)) return data;
-          if (Array.isArray(data?.list)) return data.list;
-          return [];
-        };
-
-        const items = extractList(response.data.data);
-        setOptions(items.map(transform));
-        setStatus("success");
-      } catch (err) {
-        setError(`Falha ao carregar: ${endpoint}`);
-        setStatus("error");
-        console.error(`Erro no endpoint ${endpoint}:`, err);
-      }
-    };
-
     fetchOptions();
-  }, [endpoint, transform]);
+  }, [fetchOptions]);
 
-  return {
-    options,
-    isLoading: status === "loading",
-    isError: status === "error",
-    error,
-  };
+  return { options, isLoading, isError, error, refetch: fetchOptions };
 };
