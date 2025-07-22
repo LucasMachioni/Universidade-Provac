@@ -23,8 +23,16 @@ export const useApiOptions = <T = any>({
   transform,
   params = {},
   skip = false,
-}: UseApiOptionsParams<T>) => {
+}: UseApiOptionsParams<T>): {
+  options: Option[];
+  data: T[];
+  isLoading: boolean;
+  isError: boolean;
+  error: string | null;
+  refetch: () => Promise<void>;
+} => {
   const [options, setOptions] = useState<Option[]>([]);
+  const [data, setData] = useState<T[]>([]);
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     skip ? "success" : "loading"
   );
@@ -39,15 +47,14 @@ export const useApiOptions = <T = any>({
     setError(null);
     try {
       const res = await apiClient.get(endpoint, { params });
-      // extrai lista genérica
-      const data = res.data;
-      const list = Array.isArray(data)
-        ? data
-        : Array.isArray(data.data)
-        ? data.data
-        : Array.isArray(data.list)
-        ? data.list
+      const list = Array.isArray(res.data)
+        ? res.data
+        : Array.isArray(res.data.data)
+        ? res.data.data
+        : Array.isArray(res.data.list)
+        ? res.data.list
         : [];
+      setData(list);
       setOptions(list.map(transform || defaultTransform));
       setStatus("success");
     } catch (err: any) {
@@ -61,5 +68,5 @@ export const useApiOptions = <T = any>({
     fetchOptions();
   }, [fetchOptions]);
 
-  return { options, isLoading, isError, error, refetch: fetchOptions };
+  return { options, data, isLoading, isError, error, refetch: fetchOptions };
 };

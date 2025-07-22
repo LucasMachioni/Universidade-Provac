@@ -4,13 +4,23 @@ import { Spinner } from "@/components/ui/ui-custom/spinner";
 import { ErrorScreen } from "@/components/ui/ui-custom/error-screen";
 import { useApiOptions } from "@/hooks/use-api-options";
 
+// Define the interface for class data based on API response
+interface ClassData {
+  id: number;
+  courseId: number;
+  moduleId: number;
+  title: string;
+  url: string;
+  description: string;
+}
+
 export const CoursesList = () => {
   const [selectedDepartment, setSelectedDepartment] = React.useState("");
   const [selectedCourse, setSelectedCourse] = React.useState("");
   const [selectedModule, setSelectedModule] = React.useState("");
   const [selectedClass, setSelectedClass] = React.useState("");
 
-  // Buscar departamentos (sempre carregados)
+  // Fetch departments
   const {
     options: departmentOptions,
     isLoading: deptLoading,
@@ -18,7 +28,7 @@ export const CoursesList = () => {
     error: deptErrorMsg,
   } = useApiOptions({ endpoint: "departments/list" });
 
-  // Buscar cursos filtrando pelo departamento selecionado
+  // Fetch courses based on selected department
   const {
     options: courseOptions,
     isLoading: courseLoading,
@@ -31,7 +41,7 @@ export const CoursesList = () => {
     skip: !selectedDepartment,
   });
 
-  // Buscar módulos filtrando pelo curso selecionado
+  // Fetch modules based on selected course
   const {
     options: moduleOptions,
     isLoading: moduleLoading,
@@ -44,21 +54,30 @@ export const CoursesList = () => {
     skip: !selectedCourse,
   });
 
-  // Buscar aulas filtrando pelo módulo selecionado
+  // Fetch classes based on selected module and course, with raw data
   const {
     options: classOptions,
+    data: classData, // Added to access raw class data
     isLoading: classLoading,
     isError: classError,
     error: classErrorMsg,
     refetch: refetchClasses,
-  } = useApiOptions({
+  } = useApiOptions<ClassData>({
     endpoint: "classes/list",
     params: { moduleId: selectedModule, courseId: selectedCourse },
     skip: !(selectedModule && selectedCourse),
   });
 
+  // Function to extract YouTube video ID from URL
+  const getVideoId = (url: string) => {
+    const match = url.match(/v=([^&]+)/);
+    return match ? match[1] : null;
+  };
 
-  // Atualizar cursos quando o departamento mudar
+  // Find the selected class data using the ID
+  const selectedClassData = classData?.find(cls => cls.id.toString() === selectedClass);
+
+  // Reset selections when dependencies change
   React.useEffect(() => {
     if (selectedDepartment) {
       setSelectedCourse("");
@@ -72,7 +91,6 @@ export const CoursesList = () => {
     }
   }, [selectedDepartment, refetchCourses]);
 
-  // Atualizar módulos quando o curso mudar
   React.useEffect(() => {
     if (selectedCourse) {
       setSelectedModule("");
@@ -84,7 +102,6 @@ export const CoursesList = () => {
     }
   }, [selectedCourse, refetchModules]);
 
-  // Atualizar aulas quando o módulo mudar
   React.useEffect(() => {
     if (selectedModule) {
       setSelectedClass("");
@@ -166,13 +183,14 @@ export const CoursesList = () => {
           {classLoading && <div>Carregando aulas...</div>}
         </div>
 
-        {selectedClass && (
+        {/* Display the video if a class is selected and has a valid URL */}
+        {selectedClassData && getVideoId(selectedClassData.url) && (
           <div className="mt-8">
             <h2 className="text-2xl font-semibold mb-4 text-center">Aula Selecionada</h2>
             <div className="w-full aspect-video bg-black rounded-lg overflow-hidden shadow-lg">
               <iframe
                 className="w-full h-full"
-                src={`https://www.youtube.com/embed/${selectedClass}`}
+                src={`https://www.youtube.com/embed/${getVideoId(selectedClassData.url)}`}
                 title="Aula"
                 allowFullScreen
               />
