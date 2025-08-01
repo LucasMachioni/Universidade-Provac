@@ -1,4 +1,3 @@
-import { AuthProvider } from "@/contexts/auth-context";
 import { Classes } from "@/pages/classes";
 import { Courses } from "@/pages/create-courses";
 import { Home } from "@/pages/home";
@@ -11,7 +10,6 @@ import { Register } from "@/pages/register";
 
 export function AppRoutes() {
   return (
-    <AuthProvider>
       <Routes>
         <Route path="/" element={<Home />} />
 
@@ -26,6 +24,5 @@ export function AppRoutes() {
         <Route />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </AuthProvider>
   );
 }

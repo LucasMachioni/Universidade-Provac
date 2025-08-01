@@ -5,7 +5,6 @@ import { useAuth } from "@/contexts/auth-context";
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -16,6 +15,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { Toast } from "./toast";
+import logo from "../../../assets/logo.png";
 
 export function LoginCard() {
   const [email, setEmail] = useState("");
@@ -36,32 +37,25 @@ export function LoginCard() {
       };
       login(token, role);
       navigate("/cadastrar-curso");
+      window.location.reload();
     } catch (erro) {
       console.error("Erro ao logar:", erro);
-      alert("Falha no login!");
+      <Toast />;
     }
   };
 
   return (
-    <Card className="w-full max-w-md p-6 text-base shadow-md">
-      <CardHeader className="space-y-3">
-        <CardTitle className="text-2xl">Login</CardTitle>
-        <CardDescription className="text-base">
-          Insira seu e-mail para entrar com sua conta
-        </CardDescription>
-        <CardAction>
-          <Button
-            variant="link"
-            className="text-base"
-            onClick={() => navigate("/registrar")}
-          >
-            Cadastrar
-          </Button>
-        </CardAction>
+    <Card className="w-full max-w-sm sm:max-w-md mx-auto p-6 text-base shadow-md">
+      <CardHeader className="space-y-3 text-center">
+        <CardTitle className="text-2xl flex justify-center items-center relative right-12">
+          <img src={logo} alt="logo" className="w-25 h-25 relative right-20" />
+          Login
+        </CardTitle>
+        <CardDescription>Insira seu e-mail para entrar</CardDescription>
       </CardHeader>
+
       <CardContent>
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-      
           <div className="grid gap-2">
             <Label htmlFor="email" className="text-base">
               E-mail

@@ -24,36 +24,43 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [isManager, setIsManager] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  useEffect(() => {
+  const syncAuthState = () => {
     const savedToken = localStorage.getItem("APP_TOKEN");
     const savedRoles = localStorage.getItem("APP_ROLES");
 
     if (savedToken && savedRoles) {
       setToken(savedToken);
-
       try {
         const rolesArr: Role[] = JSON.parse(savedRoles);
-        const manager = rolesArr.some((r) => r.authority === "ROLE_MANAGER");
-        setIsManager(manager);
+        setIsManager(rolesArr.some((r) => r.authority === "ROLE_MANAGER"));
       } catch (error) {
-        console.error("Erro ao parsear roles do localStorage", error);
+        console.error("Erro ao parsear roles", error);
         setIsManager(false);
       }
+    } else {
+      setToken(null);
+      setIsManager(false);
     }
-
     setIsLoading(false);
+  };
+
+  useEffect(() => {
+    syncAuthState();
   }, []);
 
   const login = (tok: string, roles: Role[]) => {
     localStorage.setItem("APP_TOKEN", tok);
     localStorage.setItem("APP_ROLES", JSON.stringify(roles));
+
     setToken(tok);
     setIsManager(roles.some((r) => r.authority === "ROLE_MANAGER"));
+    setIsLoading(false);
   };
 
   const logout = () => {
     localStorage.removeItem("APP_TOKEN");
     localStorage.removeItem("APP_ROLES");
+
     setToken(null);
     setIsManager(false);
   };
@@ -66,7 +73,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     </AuthContext.Provider>
   );
 }
-
 export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth deve estar dentro de AuthProvider");

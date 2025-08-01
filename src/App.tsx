@@ -2,9 +2,13 @@ import { BrowserRouter } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/auth-context";
 import { AppRoutes } from "./routes";
 import { NavBar } from "./components/ui/ui-custom/navbar";
+import { useLocation } from "react-router-dom";
 
 function AppContent() {
-  const { isLoading } = useAuth();
+  const { isLoading, token } = useAuth();
+  const location = useLocation();
+
+  const hideNavbar = ["/"];
 
   if (isLoading) {
     return <div className="text-white p-4">Carregando...</div>;
@@ -12,7 +16,9 @@ function AppContent() {
 
   return (
     <>
-      <NavBar />
+      {!hideNavbar.includes(location.pathname) && (
+        <NavBar key={token ?? "no-token"} />
+      )}
       <AppRoutes />
     </>
   );
@@ -20,12 +26,12 @@ function AppContent() {
 
 export function App() {
   return (
-    <div className="bg-[#10151F]">
-      <BrowserRouter>
-        <AuthProvider>
+    <AuthProvider>
+      <div className="bg-gradient-to-br from-[#0f172a] to-[#1e293b]">
+        <BrowserRouter>
           <AppContent />
-        </AuthProvider>
-      </BrowserRouter>
-    </div>
+        </BrowserRouter>
+      </div>
+    </AuthProvider>
   );
 }

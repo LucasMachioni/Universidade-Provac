@@ -132,7 +132,6 @@ export const Courses = () => {
         <Combobox
           options={deptOptions}
           placeholder="Escolha um departamento"
-          searchPlaceholder="Digite para buscar..."
           defaultValue={selectedDept}
           onValueChange={setSelectedDept}
           className="border-blue-500"
@@ -161,7 +160,6 @@ export const Courses = () => {
         <Combobox
           options={courseOptions}
           placeholder="Selecione um curso"
-          searchPlaceholder="Digite para buscar..."
           defaultValue={selectedCourse}
           onValueChange={setSelectedCourse}
           className="border-blue-500"
@@ -171,26 +169,6 @@ export const Courses = () => {
           className="w-[50%] text-base mt-3 bg-[#a11313] hover:bg-[#a11313bb]"
         >
           Apagar
-        </Button>
-      </div>
-
-      <div className="w-[65%] h-55 mt-10 bg-[#040507] flex flex-col gap-4 items-center p-5 pb-14 rounded-md">
-        <h1 className="text-white font-bold text-2xl">
-          Atribuir Curso Obrigatório
-        </h1>
-        <Combobox
-          options={roleOptions}
-          placeholder="Selecione uma função"
-          searchPlaceholder="Digite para buscar..."
-          defaultValue={selectedRole}
-          onValueChange={setSelectedRole}
-          className="border-blue-500"
-        />
-        <Button
-          variant="default"
-          className="w-[50%] text-base bg-[#0D47A1] hover:bg-[#0d46a288] mt-2"
-        >
-          Atribuir
         </Button>
       </div>
     </main>

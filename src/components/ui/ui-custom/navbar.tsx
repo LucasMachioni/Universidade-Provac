@@ -20,7 +20,7 @@ export const NavBar = () => {
 
   return (
     <nav className="w-full bg-[#222325] h-24 px-6 flex items-center sticky top-0 z-50">
-      {token && isManager && <DrawerSidebar />}
+      {token && isManager ? <DrawerSidebar key={`sidebar-${token}`} /> : null}
 
       <div className="flex items-center gap-3">
         <img src={logo} alt="Logo" className="h-24 md:h-24" />
@@ -30,10 +30,10 @@ export const NavBar = () => {
       </div>
 
       <ul className="hidden xl:flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 gap-8 text-white text-md">
-        <li className="font-bold">
+        <li className="hover:text-gray-300 cursor-pointer font-bold">
           <Link to="/">Home</Link>
         </li>
-        <li className="font-bold">
+        <li className="hover:text-gray-300 cursor-pointer font-bold">
           <Link to="/cursos">Cursos</Link>
         </li>
         <li className="hover:text-gray-300 cursor-pointer font-bold">
