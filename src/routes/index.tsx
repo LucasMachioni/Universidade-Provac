@@ -1,6 +1,6 @@
 import { Classes } from "@/pages/classes";
 import { Courses } from "@/pages/create-courses";
-import { Home } from "@/pages/home";
+import { Login } from "@/pages/login";
 import { Modules } from "@/pages/modules";
 import { Proofs } from "@/pages/proofs";
 import { Navigate, Route, Routes } from "react-router-dom";
@@ -11,7 +11,7 @@ import { Register } from "@/pages/register";
 export function AppRoutes() {
   return (
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Login />} />
 
         <Route element={<PrivateRoute />}>
           <Route path="/cadastrar-curso" element={<Courses />} />
